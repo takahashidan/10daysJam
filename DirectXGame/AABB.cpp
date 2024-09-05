@@ -5,3 +5,4 @@ bool IsCollision(const AABB& aabb1, const AABB& aabb2) {
 	       (aabb1.min.y <= aabb2.max.y && aabb1.max.y >= aabb2.min.y) && 
 	       (aabb1.min.z <= aabb2.max.z && aabb1.max.z >= aabb2.min.z);
 }
+//int a;
