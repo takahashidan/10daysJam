@@ -1,9 +1,9 @@
-#include "DeathBlock.h"
+#include "JumpBlock.h"
 #include "myMath.h"
 #include <cassert>
 #include <numbers>
 
-void DeathBlock::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
+void JumpBlock::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);
 
 	model_ = model;
@@ -12,29 +12,19 @@ void DeathBlock::Initialize(Model* model, ViewProjection* viewProjection, const 
 	worldTransform_.translation_ = position;
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> * 3.0f / 2.0f;
 	viewProjection_ = viewProjection;
-
-	velocity_ = {0, -kWalkSpeed, 0};
-	walkTimer = 0.0f;
 }
 
-void DeathBlock::Update() {
-	// 移動
-	worldTransform_.translation_ += velocity_;
-
-	// 回転アニメーション
-	walkTimer += 1.0f / 120.0f;
-	//worldTransform_.rotation_.x = std::sin(std::numbers::pi_v<float> * 2.0f * walkTimer / kWalkMotionTime);
-
+void JumpBlock::Update() {
 	// 行列計算
 	worldTransform_.UpdateMatrix();
 }
 
-void DeathBlock::Draw() {
+void JumpBlock::Draw() {
 	// モデル描画
 	model_->Draw(worldTransform_, *viewProjection_);
 }
 
-Vector3 DeathBlock::GetWorldPosition() {
+Vector3 JumpBlock::GetWorldPosition() {
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得(ワールド座標)
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
@@ -43,7 +33,7 @@ Vector3 DeathBlock::GetWorldPosition() {
 	return worldPos;
 }
 
-AABB DeathBlock::GetAABB() {
+AABB JumpBlock::GetAABB() {
 	Vector3 worldPos = GetWorldPosition();
 
 	AABB aabb;
@@ -54,4 +44,4 @@ AABB DeathBlock::GetAABB() {
 	return aabb;
 }
 
-void DeathBlock::OnCollision(const Player* player) { (void)player; }
+void JumpBlock::OnCollision(const Player* player) { (void)player; }
